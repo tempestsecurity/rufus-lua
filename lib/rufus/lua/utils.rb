@@ -51,6 +51,7 @@ module Rufus::Lua
 
       when Hash then to_lua_table_s(o)
       when Array then to_lua_table_s(o)
+      when NilClass then 'nil'
 
       else raise(
         ArgumentError.new(
