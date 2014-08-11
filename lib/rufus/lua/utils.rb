@@ -42,7 +42,6 @@ module Rufus::Lua
   def self.to_lua_s(o)
 
     case o
-
       when String then o.inspect
       when Fixnum then o.to_s
       when Float then o.to_s
@@ -52,11 +51,11 @@ module Rufus::Lua
       when Hash then to_lua_table_s(o)
       when Array then to_lua_table_s(o)
       when NilClass then 'nil'
-
-      else raise(
-        ArgumentError.new(
+      when Object then
+        raise ArgumentError.new(
           "don't how to turning into a Lua string representation "+
-          "Ruby instances of class '#{o.class}'"))
+          "Ruby instances of class '#{o.class}', define method 'save_to_hash' in your object to work!") unless o.respond_to?(:save_to_hash)
+        to_lua_table_s(o.save_to_hash)
     end
   end
 
@@ -64,7 +63,6 @@ module Rufus::Lua
   # representation.
   #
   def self.to_lua_table_s(o)
-
     s = if o.is_a?(Array)
       o.collect { |e| to_lua_s(e) }
     else
