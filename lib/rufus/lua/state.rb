@@ -229,7 +229,7 @@ module Rufus::Lua
 
         when Hash then stack_push_hash(o)
         when Array then stack_push_array(o)
-        when Object then stack_push_hash(o.save_to_hash.merge!({'handle' => o.object_id})) if o.respond_to?(:save_to_hash)
+        when Object then stack_push_hash(o.save_to_hash.merge!({'handle' => o.object_id.to_f})) if o.respond_to?(:save_to_hash)
 
         else raise(
           ArgumentError.new(

@@ -55,7 +55,7 @@ module Rufus::Lua
         raise ArgumentError.new(
           "don't how to turning into a Lua string representation "+
           "Ruby instances of class '#{o.class}', define method 'save_to_hash' in your object to work!") unless o.respond_to?(:save_to_hash)
-        to_lua_table_s(o.save_to_hash.merge!({'handle' => o.object_id}))
+        to_lua_table_s(o.save_to_hash.merge!({'handle' => o.object_id.to_f}))
     end
   end
 
